@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation Example</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>Registration Form</h2>
+  <form id="registrationForm" onsubmit="validateForm(event)">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
+      <span id="firstNameError" class="error"></span>
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
+      <span id="lastNameError" class="error"></span>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <span id="emailError" class="error"></span>
+    </div>
+    <div>
+      <label for="course">Course:</label>
+      <input type="text" id="course" name="course" required>
+      <span id="courseError" class="error"></span>
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+
+  <script>
+    function validateForm(event) {
+      event.preventDefault(); // Prevent form submission if validation fails
+
+      // Clear previous error messages
+      clearErrors();
+
+      // Get form inputs
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const course = document.getElementById('course').value;
+
+      // Validate first name (at least 2 characters)
+      if (firstName.length < 2) {
+        displayError('firstNameError', 'First name must be at least 2 characters long.');
+      }
+
+      // Validate last name (at least 2 characters)
+      if (lastName.length < 2) {
+        displayError('lastNameError', 'Last name must be at least 2 characters long.');
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        displayError('emailError', 'Please enter a valid email address.');
+      }
+
+      // Validate course (at least 2 characters)
+      if (course.length < 2) {
+        displayError('courseError', 'Course must be at least 2 characters long.');
+      }
+
+      // If there are no errors, submit the form
+      if (!hasErrors()) {
+        document.getElementById('registrationForm').submit();
+      }
+    }
+
+    // Utility function to display an error message
+    function displayError(elementId, errorMessage) {
+      const errorElement = document.getElementById(elementId);
+      errorElement.innerText = errorMessage;
+    }
+
+    // Utility function to clear error messages
+    function clearErrors() {
+      const errorElements = document.getElementsByClassName('error');
+      for (let i = 0; i < errorElements.length; i++) {
+        errorElements[i].innerText='';}
+      }
